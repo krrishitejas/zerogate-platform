@@ -1,0 +1,57 @@
+{
+  "name": "zerogate-vscode",
+  "displayName": "ZEROGATE Copilot",
+  "description": "AI-powered enterprise code intelligence and security",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Linters",
+    "Security"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "zerogate.scanFile",
+        "title": "ZEROGATE: Scan Current File"
+      },
+      {
+        "command": "zerogate.applyFix",
+        "title": "ZEROGATE: Apply AI Fix"
+      }
+    ],
+    "configuration": {
+      "title": "ZEROGATE",
+      "properties": {
+        "zerogate.apiEndpoint": {
+          "type": "string",
+          "default": "http://localhost:8000/api/v1",
+          "description": "ZEROGATE Core API endpoint URL"
+        },
+        "zerogate.projectId": {
+          "type": "string",
+          "default": "",
+          "description": "The ZEROGATE Project ID for this workspace"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "dependencies": {
+    "axios": "^1.7.0"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

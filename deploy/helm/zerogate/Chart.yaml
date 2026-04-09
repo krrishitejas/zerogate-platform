@@ -1,0 +1,6 @@
+apiVersion: v2
+name: zerogate
+description: Enterprise-grade, AI-native code intelligence and security platform (Phase 3)
+type: application
+version: 1.0.0
+appVersion: "1.0"

@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # ----------------------------------------------------
+  # Relational Database
+  # ----------------------------------------------------
+  postgres:
+    image: postgres:16
+    container_name: zg-postgres
+    environment:
+      POSTGRES_USER: zerogate
+      POSTGRES_PASSWORD: zerogate_password
+      POSTGRES_DB: zerogate_dev
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zerogate"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ----------------------------------------------------
+  # Graph Database
+  # ----------------------------------------------------
+  memgraph:
+    image: memgraph/memgraph-mage:latest
+    container_name: zg-memgraph
+    ports:
+      - "7687:7687"
+    volumes:
+      - mgdata:/var/lib/memgraph
+
+  # ----------------------------------------------------
+  # Vector Database
+  # ----------------------------------------------------
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: zg-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrantdata:/qdrant/storage
+
+  # ----------------------------------------------------
+  # Event Bus
+  # ----------------------------------------------------
+  nats:
+    image: nats:latest
+    container_name: zg-nats
+    command: "-js"
+    ports:
+      - "4222:4222"
+      - "8222:8222" # monitoring
+
+  # ----------------------------------------------------
+  # Cache
+  # ----------------------------------------------------
+  redis:
+    image: redis:7
+    container_name: zg-redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  pgdata:
+  mgdata:
+  qdrantdata:

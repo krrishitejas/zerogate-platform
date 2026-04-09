@@ -1,0 +1,36 @@
+# Default values for zerogate.
+replicaCount: 1
+
+image:
+  api: "ghcr.io/zerogate/api:latest"
+  web: "ghcr.io/zerogate/web:latest"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  apiPort: 8000
+  webPort: 3000
+
+ingress:
+  enabled: false
+
+# External Integrations
+oauth:
+  clientId: ""
+  clientSecret: ""
+  authUrl: "http://hydra.local/oauth2/auth"
+  tokenUrl: "http://hydra.local/oauth2/token"
+  redirectUri: "http://zerogate.local/auth/callback"
+
+# LLM Providers
+llm:
+  provider: ollama
+  ollamaEndpoint: http://ollama:11434
+  securityModel: "qwen2.5-coder:32b"
+  bugModel: "starcoder2:7b"
+  autofixModel: "starcoder2:15b"
+
+# GPU Settings for Agent Workers
+gpu:
+  enabled: false
+  nvidia: true
