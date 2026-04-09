@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/krrishitejas/zerogate-platform/main/web/public/favicon.ico" alt="ZEROGATE Logo" width="120" />
+  <img src="https://github.com/krrishitejas/zerogate-platform/blob/main/logo.png" alt="ZEROGATE Logo" width="120" />
 </div>
 
 # ZEROGATE — Code Intelligence & Security Platform
