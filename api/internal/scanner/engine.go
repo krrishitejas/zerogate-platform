@@ -109,9 +109,10 @@ func ScanFileWithLLM(path, category, model string) ([]FindingResult, error) {
 		codeStr = codeStr[:8000]
 	}
 
-	config := llm.DefaultConfig()
+	modelName := llm.GetModelForTask(category)
+	provider := llm.GetProviderForTask(category)
 	if model != "" {
-		config.Model = model
+		modelName = model
 	}
 
 	var systemPrompt string
@@ -142,7 +143,15 @@ If no architecture issues are found, return an empty JSON array [].`
 
 	prompt := fmt.Sprintf("Analyze this code:\n\n```\n%s\n```", codeStr)
 
-	response, err := llm.AnalyzeCode(config, systemPrompt, prompt)
+	var response string
+	if provider == "ollama" {
+		config := llm.DefaultConfig()
+		config.Model = modelName
+		response, err = llm.AnalyzeCode(config, systemPrompt, prompt)
+	} else {
+		response, err = llm.GenerateFromCloud(provider, modelName, systemPrompt+"\n\n"+prompt)
+	}
+
 	if err != nil {
 		return nil, fmt.Errorf("LLM analysis failed: %w", err)
 	}

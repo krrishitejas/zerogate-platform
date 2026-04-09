@@ -1,4 +1,4 @@
-package mcp
+package llm
 
 import (
 	"os"
@@ -17,45 +17,45 @@ func DefaultRoutes() []ModelRoute {
 	return []ModelRoute{
 		{
 			TaskCategory: "security_analysis",
-			ModelName:    getEnv("SECURITY_MODEL", "qwen2.5-coder:32b"),
-			Provider:     "ollama",
-			Fallback:     "claude-4",
+			ModelName:    getEnv("SECURITY_MODEL", "qwen/qwen-2.5-coder-32b-instruct"),
+			Provider:     "huggingface",
+			Fallback:     "gemini-1.5-flash",
 		},
 		{
 			TaskCategory: "bug_detection",
-			ModelName:    getEnv("BUG_MODEL", "starcoder2:7b"),
-			Provider:     "ollama",
-			Fallback:     "claude-4",
+			ModelName:    getEnv("BUG_MODEL", "bigcode/starcoder2-7b"),
+			Provider:     "huggingface",
+			Fallback:     "gemini-1.5-flash",
 		},
 		{
 			TaskCategory: "architecture",
-			ModelName:    getEnv("ARCHITECTURE_MODEL", "deepseek-coder-v2:33b"),
-			Provider:     "ollama",
-			Fallback:     "claude-4",
+			ModelName:    getEnv("ARCHITECTURE_MODEL", "deepseek-ai/DeepSeek-Coder-V2-Base"),
+			Provider:     "openrouter", // Usually free on openrouter
+			Fallback:     "gemini-1.5-flash",
 		},
 		{
 			TaskCategory: "performance",
-			ModelName:    getEnv("PERFORMANCE_MODEL", "codellama:34b"),
-			Provider:     "ollama",
-			Fallback:     "claude-4",
+			ModelName:    getEnv("PERFORMANCE_MODEL", "meta-llama/CodeLlama-34b-Instruct-hf"),
+			Provider:     "openrouter",
+			Fallback:     "gemini-1.5-flash",
 		},
 		{
 			TaskCategory: "fix_generation",
-			ModelName:    getEnv("AUTOFIX_MODEL", "starcoder2:15b"),
-			Provider:     "ollama",
-			Fallback:     "claude-4",
+			ModelName:    getEnv("AUTOFIX_MODEL", "bigcode/starcoder2-15b-instruct"),
+			Provider:     "huggingface",
+			Fallback:     "gemini-1.5-flash",
 		},
 		{
 			TaskCategory: "embeddings",
-			ModelName:    getEnv("EMBEDDING_MODEL", "bge-m3"),
-			Provider:     "ollama",
+			ModelName:    getEnv("EMBEDDING_MODEL", "BAAI/bge-m3"),
+			Provider:     "huggingface",
 			Fallback:     "nomic-embed-text",
 		},
 		{
 			TaskCategory: "complex_reasoning",
-			ModelName:    getEnv("COMPLEX_MODEL", "claude-4"),
-			Provider:     "anthropic",
-			Fallback:     "gpt-4.1",
+			ModelName:    getEnv("COMPLEX_MODEL", "gemini-1.5-flash"),
+			Provider:     "gemini",
+			Fallback:     "gemini-1.5-pro",
 		},
 	}
 }

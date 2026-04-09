@@ -2,14 +2,18 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/joho/godotenv"
 	"github.com/nats-io/nats.go"
 	"github.com/zerogate/api/internal/agents"
 	"github.com/zerogate/api/internal/agents/aggregator"
@@ -30,6 +34,11 @@ import (
 )
 
 func main() {
+	// Note: First try to load from root level, fallback to current dir
+	if err := godotenv.Load("../.env"); err != nil {
+		godotenv.Load(".env") // Ignore error if it doesn't exist at all
+	}
+
 	// 1. Connect to PostgreSQL
 	dsn := "host=localhost user=zerogate password=zerogate_password dbname=zerogate_dev port=5433 sslmode=disable TimeZone=UTC"
 	if err := db.ConnectPostgres(dsn); err != nil {
